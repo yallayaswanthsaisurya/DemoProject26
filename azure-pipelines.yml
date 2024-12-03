@@ -13,10 +13,12 @@ stages:
     steps:
     - checkout: self  # Fetches the code from your GitHub repository
 
-    - task: UseTerraformCLI@0
+    # Install Terraform using a script
+    - script: |
+        curl -fsSL https://apt.releases.hashicorp.com/gpg | gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+        echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/hashicorp.list
+        apt-get update && apt-get install -y terraform
       displayName: Install Terraform
-      inputs:
-        terraformVersion: 'latest'
 
     - script: terraform init
       displayName: Terraform Init
@@ -32,10 +34,3 @@ stages:
         ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
         ARM_TENANT_ID: $(ARM_TENANT_ID)
 
-    - script: terraform apply -auto-approve tfplan
-      displayName: Terraform Apply
-      env:
-        ARM_CLIENT_ID: $(ARM_CLIENT_ID)
-        ARM_CLIENT_SECRET: $(ARM_CLIENT_SECRET)
-        ARM_SUBSCRIPTION_ID: $(ARM_SUBSCRIPTION_ID)
-        ARM_TENANT_ID: $(ARM_TENANT_ID)
