@@ -7,9 +7,7 @@ stages:
   jobs:
   - job: Terraform
     displayName: Terraform Deployment
-    pool:
-      vmImage: 'ubuntu-latest'
-
+  
     steps:
     - checkout: self  # Fetches the code from your GitHub repository
 
