@@ -23,9 +23,9 @@ resource "azurerm_subnet" "subnet" {
 address_prefixes = var.subnet_prefix
 }
 resource "azurerm_network_security_group" "example" {
-  name                = "var.nsg_name"
-  location            = var.location
-  resource_group_name = "var.rg_name"
+  name                = "nsgdemo"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
 
 
 security_rule {
@@ -41,15 +41,19 @@ security_rule {
   }
 }
 
-resource "azurerm_storage_account" "sg" {
-  name                = "storageaccountname26"
-  resource_group_name = azurerm_resource_group.rg.name
+resource "random_id" "unique" {
+  byte_length = 4
+}
 
+resource "azurerm_storage_account" "sg" {
+  name                     = "storagedemo${random_id.unique.hex}"
+  resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
-
 }
+
+
 resource "azurerm_network_interface" "interface" {
   name                = "interface-nic"
   location            = azurerm_resource_group.rg.location

@@ -2,7 +2,7 @@ variable "resource_group" {
   default = "resource-rg"
 }
 variable "location" {
-  default = "east us"
+  default = "central us"
 }
 variable "vnet_name" {
   default = "example-vnet1"
@@ -15,8 +15,4 @@ variable "subnet_name" {
 }
 variable "subnet_prefix" {
   default = ["10.0.1.0/24"]
-}
-
-variable "nsg_name" {
-  default = "myNSGh"
 }
