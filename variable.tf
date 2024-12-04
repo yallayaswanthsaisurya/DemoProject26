@@ -1,5 +1,5 @@
 variable "resource_group" {
-  default = "resource-rg"
+  default = "resource-rg1"
 }
 variable "location" {
   default = "east us"
